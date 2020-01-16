@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import styled from 'styled-components/native';
 import {TouchableWithoutFeedback} from 'react-native';
 import {useDispatch} from 'react-redux';
+
+import Icon from './common/Icon';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -35,12 +36,12 @@ const TodoNew = () => {
       <StyledView>
         {!selected ? (
           <>
-            <Icon size={30} color="grey" name="add" />
+            <Icon color="grey" name="add" />
             <StyledText>New Todo</StyledText>
           </>
         ) : (
           <>
-            <Icon size={30} color={text !== '' ? 'black' : 'grey'} name="add" />
+            <Icon color={text !== '' ? 'black' : 'grey'} name="add" />
             <StyledInput
               onChangeText={text => setText(text)}
               value={text}

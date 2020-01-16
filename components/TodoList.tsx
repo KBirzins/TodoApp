@@ -1,14 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
+import {SwipeListView} from 'react-native-swipe-list-view';
+
+import Icon from './common/Icon';
+import TodoItem from './TodoItem';
+import TodoNew from './TodoNew';
 
 const StyledView = styled.View`
   padding-top: 22px;
 `;
 
-import TodoItem from './TodoItem';
-import TodoNew from './TodoNew';
+const StyledHiddenView = styled.View`
+  padding-horizontal: 15px;
+  background-color: #ddd;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 const TodoList = () => {
   const todoList = useSelector(state => state.todoList);
@@ -16,7 +25,7 @@ const TodoList = () => {
   return (
     <StyledView>
       <TodoNew />
-      <FlatList
+      <SwipeListView
         data={todoList}
         renderItem={({item}) => (
           <TodoItem
@@ -25,6 +34,24 @@ const TodoList = () => {
             timestamp={item.timestamp}
           />
         )}
+        renderHiddenItem={item => (
+          <StyledHiddenView>
+            <Icon
+              onPress={() => {
+                console.log('EDIT THIS ITEM', item);
+              }}
+              name="edit"
+            />
+            <Icon
+              onPress={() => {
+                console.log('DELETE ME', item);
+              }}
+              name="delete"
+            />
+          </StyledHiddenView>
+        )}
+        leftOpenValue={75}
+        rightOpenValue={-75}
       />
     </StyledView>
   );

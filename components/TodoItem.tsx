@@ -6,10 +6,12 @@ import CheckBox from './common/CheckBox';
 
 const StyledView = styled.View`
   flex-direction: row;
-  margin-horizontal: 30px;
-  margin-vertical: 5px;
+  padding-horizontal: 30px;
+  padding-vertical: 5px;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  background-color: white;
 `;
 
 const StyledText = styled.Text`
