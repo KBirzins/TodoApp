@@ -13,12 +13,18 @@ import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 
 const Header = styled.View`
-  font-size: 40px;
+  align-items: center;
 `;
-//
+
 const HeaderText = styled.Text`
   font-size: 40px;
 `;
+
+const HeaderView = () => (
+  <Header>
+    <HeaderText>Todo App</HeaderText>
+  </Header>
+);
 
 const App = () => {
   return (
@@ -26,9 +32,7 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Header>
-            <HeaderText>Todo App</HeaderText>
-          </Header>
+          <HeaderView />
         </ScrollView>
       </SafeAreaView>
     </>
