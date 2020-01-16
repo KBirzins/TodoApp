@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import {useDispatch} from 'react-redux';
+
 import CheckBox from './common/CheckBox';
 
 const StyledView = styled.View`
@@ -18,13 +20,17 @@ const StyledText = styled.Text`
 interface ITodoItem {
   text: string;
   done: boolean;
-  onPress(): any;
+  timestamp: number;
 }
 
-const TodoItem = ({text, done, onPress}: ITodoItem) => {
+const TodoItem = ({text, done, timestamp}: ITodoItem) => {
+  const dispatch = useDispatch();
   return (
     <StyledView>
-      <CheckBox selected={done} onPress={onPress} />
+      <CheckBox
+        selected={done}
+        onPress={() => dispatch({type: 'TOGGLE_TODO', timestamp})}
+      />
       <StyledText>{text}</StyledText>
     </StyledView>
   );

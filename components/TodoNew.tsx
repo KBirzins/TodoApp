@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styled from 'styled-components/native';
 import {TouchableWithoutFeedback} from 'react-native';
-
-import CheckBox from './common/CheckBox';
+import {useDispatch} from 'react-redux';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -27,6 +26,7 @@ const StyledInput = styled.TextInput`
 const TodoNew = () => {
   const [selected, setSelected] = useState(false);
   const [text, setText] = useState('');
+  const dispatch = useDispatch();
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -40,10 +40,18 @@ const TodoNew = () => {
           </>
         ) : (
           <>
-            <CheckBox selected={false} onPress={() => {}} />
+            <Icon size={30} color={text !== '' ? 'black' : 'grey'} name="add" />
             <StyledInput
               onChangeText={text => setText(text)}
               value={text}
+              onBlur={() => {
+                // Dispatch redux action to add new, reset new todo fields
+                if (text !== '') {
+                  dispatch({type: 'ADD_TODO', text});
+                  setText('');
+                }
+                setSelected(false);
+              }}
               autoFocus
             />
           </>

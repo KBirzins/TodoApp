@@ -13,6 +13,7 @@
     "@react-native-firebase/app": "^6.2.0",
     "@react-native-firebase/auth": "^6.2.0",
     "@react-native-firebase/firestore": "^6.2.0",
+    "@types/react-redux": "^7.1.6",
     "@types/styled-components": "^4.4.2",
     "react": "16.9.0",
     "react-native": "0.61.5",

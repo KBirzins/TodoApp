@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList} from 'react-native';
+import {useSelector} from 'react-redux';
 
 const StyledView = styled.View`
   padding-top: 22px;
@@ -10,25 +11,21 @@ import TodoItem from './TodoItem';
 import TodoNew from './TodoNew';
 
 const TodoList = () => {
+  const todoList = useSelector(state => state.todoList);
+
   return (
     <StyledView>
+      <TodoNew />
       <FlatList
-        data={[
-          {text: 'Walk dog', done: false},
-          {text: 'Read news', done: true},
-          {text: 'Go shopping', done: false},
-        ]}
+        data={todoList}
         renderItem={({item}) => (
           <TodoItem
             text={item.text}
             done={item.done}
-            onPress={() => {
-              item.done = !item.done;
-            }}
+            timestamp={item.timestamp}
           />
         )}
       />
-      <TodoNew />
     </StyledView>
   );
 };

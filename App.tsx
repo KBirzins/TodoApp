@@ -11,8 +11,10 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
+import {Provider} from 'react-redux';
 
 import TodoList from './components/TodoList';
+import configureStore from './reducers';
 
 const Header = styled.View`
   align-items: center;
@@ -28,9 +30,11 @@ const HeaderView = () => (
   </Header>
 );
 
+const store = configureStore();
+
 const App = () => {
   return (
-    <>
+    <Provider store={store}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -39,7 +43,7 @@ const App = () => {
           <TodoList />
         </ScrollView>
       </SafeAreaView>
-    </>
+    </Provider>
   );
 };
 
