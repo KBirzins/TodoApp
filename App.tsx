@@ -12,6 +12,8 @@ import React from 'react';
 import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 
+import TodoList from './components/TodoList';
+
 const Header = styled.View`
   align-items: center;
 `;
@@ -33,6 +35,8 @@ const App = () => {
       <SafeAreaView>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
           <HeaderView />
+
+          <TodoList />
         </ScrollView>
       </SafeAreaView>
     </>
