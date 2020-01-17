@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import styled from 'styled-components/native';
-import {useSelector} from 'react-redux';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import {useSelector, useDispatch} from 'react-redux';
+import {FlatList} from 'react-native';
+import Swipeable from 'react-native-swipeable';
 
 import Icon from './common/Icon';
 import TodoItem from './TodoItem';
@@ -11,47 +12,59 @@ const StyledView = styled.View`
   padding-top: 22px;
 `;
 
-const StyledHiddenView = styled.View`
-  padding-horizontal: 15px;
-  background-color: #ddd;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
+const StyledLeftView = styled.View`
+  align-items: flex-end;
+  padding-vertical: 5px;
 `;
 
 const TodoList = () => {
   const todoList = useSelector(state => state.todoList);
+  const dispatch = useDispatch();
+  const [isEditing, setEditing] = useState(false);
+  const swipeEl = useRef(null);
 
   return (
     <StyledView>
       <TodoNew />
-      <SwipeListView
+      <FlatList
+        keyExtractor={item => item.timestamp.toString()}
         data={todoList}
-        renderItem={({item}) => (
-          <TodoItem
-            text={item.text}
-            done={item.done}
-            timestamp={item.timestamp}
-          />
-        )}
-        renderHiddenItem={item => (
-          <StyledHiddenView>
-            <Icon
-              onPress={() => {
-                console.log('EDIT THIS ITEM', item);
-              }}
-              name="edit"
-            />
-            <Icon
-              onPress={() => {
-                console.log('DELETE ME', item);
-              }}
-              name="delete"
-            />
-          </StyledHiddenView>
-        )}
-        leftOpenValue={75}
-        rightOpenValue={-75}
+        renderItem={({item, index}) => {
+          return (
+            <Swipeable
+              ref={swipeEl}
+              leftButtons={[
+                <StyledLeftView>
+                  <Icon
+                    onPress={() => {
+                      if (!isEditing) {
+                        setEditing({index, isEditing: true});
+                        swipeEl.current.recenter();
+                      } else {
+                        setEditing(!isEditing);
+                      }
+                    }}
+                    name="edit"
+                  />
+                </StyledLeftView>,
+              ]}
+              rightButtons={[
+                <Icon
+                  onPress={() => {
+                    dispatch({type: 'REMOVE_TODO', timestamp: item.timestamp});
+                  }}
+                  name="delete"
+                />,
+              ]}>
+              <TodoItem
+                text={item.text}
+                done={item.done}
+                timestamp={item.timestamp}
+                isEditing={isEditing && isEditing.index === index}
+              />
+            </Swipeable>
+          );
+        }}
       />
     </StyledView>
   );

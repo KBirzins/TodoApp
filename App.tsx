@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 import {Provider} from 'react-redux';
 
@@ -37,11 +37,9 @@ const App = () => {
     <Provider store={store}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <HeaderView />
+        <HeaderView />
 
-          <TodoList />
-        </ScrollView>
+        <TodoList />
       </SafeAreaView>
     </Provider>
   );

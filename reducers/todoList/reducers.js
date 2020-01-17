@@ -24,7 +24,6 @@ function todoListReducer(state = initialTodos, action) {
           return todo;
         }
       });
-
     case 'EDIT_TODO':
       return state.map(todo => {
         if (todo.timestamp === action.payload) {

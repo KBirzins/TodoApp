@@ -4,7 +4,7 @@ import Icon from './Icon';
 
 interface ICheckBox {
   selected: boolean;
-  onPress(): any;
+  onPress?(): any;
 }
 
 const CheckBox = ({selected, onPress}: ICheckBox) => (
