@@ -14,6 +14,7 @@ import styled from 'styled-components/native';
 import {Provider} from 'react-redux';
 
 import TodoList from './components/TodoList';
+import Search from './components/Search';
 import configureStore from './reducers';
 
 const Header = styled.View`
@@ -38,7 +39,7 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <HeaderView />
-
+        <Search />
         <TodoList />
       </SafeAreaView>
     </Provider>
