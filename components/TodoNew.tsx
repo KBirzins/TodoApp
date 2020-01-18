@@ -41,7 +41,18 @@ const TodoNew = () => {
           </>
         ) : (
           <>
-            <Icon color={text !== '' ? 'black' : 'grey'} name="add" />
+            <Icon
+              color={text !== '' ? 'black' : 'grey'}
+              name="add"
+              onPress={() => {
+                // Dispatch redux action to add new, reset new todo fields
+                if (text !== '') {
+                  dispatch({type: 'ADD_TODO', text});
+                  setText('');
+                }
+                setSelected(false);
+              }}
+            />
             <StyledInput
               onChangeText={text => setText(text)}
               value={text}

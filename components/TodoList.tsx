@@ -27,6 +27,7 @@ const TodoList = () => {
     <StyledView>
       <TodoNew />
       <FlatList
+        keyboardShouldPersistTaps="always"
         keyExtractor={item => item.timestamp.toString()}
         data={todoList}
         renderItem={({item, index}) => {
@@ -61,6 +62,7 @@ const TodoList = () => {
                 done={item.done}
                 timestamp={item.timestamp}
                 isEditing={isEditing && isEditing.index === index}
+                onEditingDone={() => setEditing(false)}
               />
             </Swipeable>
           );

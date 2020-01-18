@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {useDispatch} from 'react-redux';
+import {TouchableWithoutFeedback} from 'react-native';
 
 import CheckBox from './common/CheckBox';
-import {TouchableWithoutFeedback, Text} from 'react-native';
+import Icon from './common/Icon';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -24,6 +25,18 @@ const StyledText = styled.Text<{done: boolean}>`
 const StyledTextInput = styled.TextInput`
   margin-left: 5px;
   font-size: 14px;
+  width: 80%;
+`;
+
+const ContainerView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 30px;
+`;
+
+const ButtonContainerView = styled.View`
+  flex-direction: row;
 `;
 
 interface ITodoItem {
@@ -31,11 +44,18 @@ interface ITodoItem {
   done: boolean;
   timestamp: number;
   isEditing?: boolean;
+  onEditingDone(): any;
 }
 
-const TodoItem = ({text, done, timestamp, isEditing}: ITodoItem) => {
+const TodoItem = ({
+  text,
+  done,
+  timestamp,
+  isEditing,
+  onEditingDone,
+}: ITodoItem) => {
   const dispatch = useDispatch();
-  const [todoText, setText] = React.useState(text);
+  const [todoText, setText] = useState(text);
 
   return (
     <TouchableWithoutFeedback
@@ -43,16 +63,38 @@ const TodoItem = ({text, done, timestamp, isEditing}: ITodoItem) => {
         dispatch({type: 'TOGGLE_TODO', timestamp});
       }}>
       <StyledView>
-        <CheckBox selected={done} />
+        <CheckBox
+          selected={done}
+          onPress={() => {
+            dispatch({type: 'TOGGLE_TODO', timestamp});
+          }}
+        />
         {isEditing ? (
           <>
-            <StyledTextInput
-              editable={isEditing}
-              onChangeText={text => setText(text)}
-              value={todoText}
-              autoFocus
-            />
-            <Text>Lol</Text>
+            <ContainerView>
+              <StyledTextInput
+                editable={isEditing}
+                onChangeText={text => setText(text)}
+                value={todoText}
+                autoFocus
+              />
+              <ButtonContainerView>
+                <Icon
+                  name="check"
+                  onPress={() => {
+                    onEditingDone();
+                    dispatch({type: 'EDIT_TODO', timestamp, text: todoText});
+                  }}
+                />
+                <Icon
+                  name="close"
+                  onPress={() => {
+                    setText(text);
+                    onEditingDone();
+                  }}
+                />
+              </ButtonContainerView>
+            </ContainerView>
           </>
         ) : (
           <StyledText done={done}>{text}</StyledText>
