@@ -35,6 +35,7 @@ target 'TodoApp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
 
   target 'TodoAppTests' do
     inherit! :search_paths
