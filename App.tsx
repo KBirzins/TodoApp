@@ -13,9 +13,9 @@ import {SafeAreaView, StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 import {Provider} from 'react-redux';
 
-import TodoList from './components/TodoList';
-import Search from './components/Search';
-import configureStore from './reducers';
+import TodoList from './src/components/TodoList';
+import Search from './src/components/Search';
+import configureStore from './src/reducers';
 
 const Header = styled.View`
   align-items: center;

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {FlatList} from 'react-native';
@@ -58,13 +58,14 @@ const getUsersFromFirebase = async () => {
 
   console.log('Total users', querySnapshot.size);
   console.log('User Documents', querySnapshot.docs);
+
+  return querySnapshot;
 };
 
 const SwipeableItem = ({item, index}) => {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState(false);
   const swipeEl = useRef(null);
-  getUsersFromFirebase();
 
   return (
     <Swipeable
@@ -108,6 +109,37 @@ const TodoList = () => {
   const filter = useSelector(state => state.filter);
 
   const filteredList = filterList(todoList, filter);
+  const [users, setUsers] = useState([]); // Initial empty array of users
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+
+  // On load, fetch our users and subscribe to updates
+  useEffect(() => {
+    const unsubscribe = firestore()
+      .collection('users')
+      .onSnapshot(querySnapshot => {
+        // Add users into an array
+        const users = querySnapshot.docs.map(documentSnapshot => {
+          return {
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id, // required for FlatList
+          };
+        });
+
+        // Update state with the users array
+        setUsers(users);
+
+        // As this can trigger multiple times, only update loading after the first update
+        if (loading) {
+          setLoading(false);
+        }
+      });
+
+    return () => unsubscribe(); // Stop listening for updates whenever the component unmounts
+  }, []);
+
+  if (loading) {
+    return null; // Show a loading spinner
+  }
 
   return (
     <StyledView>
