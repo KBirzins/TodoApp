@@ -13,7 +13,6 @@ const StyledView = styled.View`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  background-color: white;
 `;
 
 const StyledText = styled.Text<{done: boolean}>`
@@ -26,6 +25,8 @@ const StyledTextInput = styled.TextInput`
   margin-left: 5px;
   font-size: 14px;
   width: 80%;
+  padding-vertical: 0px;
+  padding-horizontal: 0px;
 `;
 
 const ContainerView = styled.View`

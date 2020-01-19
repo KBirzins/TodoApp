@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {FlatList} from 'react-native';
 import Swipeable from 'react-native-swipeable';
+import firestore from '@react-native-firebase/firestore';
 
 import Icon from './common/Icon';
 import TodoItem from './TodoItem';
@@ -50,10 +51,20 @@ const filterList = (todoList, filter) => {
   return todoList;
 };
 
+const getUsersFromFirebase = async () => {
+  const querySnapshot = await firestore()
+    .collection('users')
+    .get();
+
+  console.log('Total users', querySnapshot.size);
+  console.log('User Documents', querySnapshot.docs);
+};
+
 const SwipeableItem = ({item, index}) => {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState(false);
   const swipeEl = useRef(null);
+  getUsersFromFirebase();
 
   return (
     <Swipeable
