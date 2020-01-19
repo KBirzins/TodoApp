@@ -9,7 +9,7 @@ interface IIcon {
   onPress?(): any;
 }
 
-const StyledIcon = ({size = 30, color = '#211f30', name, onPress}: IIcon) => {
+const StyledIcon = ({size = 25, color = '#211f30', name, onPress}: IIcon) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <Icon size={size} color={color} name={name} />

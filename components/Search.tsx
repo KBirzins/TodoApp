@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/native';
+import {useDispatch} from 'react-redux';
 
 import FilterItem from './FilterItem';
 
@@ -25,6 +26,27 @@ const Search = () => {
   const [dateType, setDateType] = useState(true);
   const [alphabetFilter, setAlphabetFilter] = useState(false);
   const [alphabetType, setAlphabetType] = useState(true);
+
+  const dispatch = useDispatch();
+  dispatch({
+    type: 'SET_FILTER',
+    filter: {
+      todo: {
+        isActive: doneFilter,
+        isPrimaryActive: isDoneType,
+      },
+      date: {
+        isActive: dateFilter,
+        isPrimaryActive: dateType,
+      },
+      alphabet: {
+        isActive: alphabetFilter,
+        isPrimaryActive: alphabetType,
+      },
+      text: searchText,
+    },
+  });
+
   return (
     <StyledView>
       <StyledHeaderText>Search & Filter</StyledHeaderText>
@@ -37,8 +59,8 @@ const Search = () => {
         setFilterType={setDoneType}
       />
       <FilterItem
-        primaryText="Date Ascending"
-        secondaryText="Date Descending"
+        primaryText="Date Descending"
+        secondaryText="Date Ascending"
         isFilterActive={dateFilter}
         setFilterActive={setDateFilter}
         filterType={dateType}
