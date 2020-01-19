@@ -48,6 +48,9 @@
       "jsx",
       "json",
       "node"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/__mocks__/firebase"
     ]
   }
 }
