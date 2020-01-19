@@ -5,20 +5,23 @@ const todoActions = {
       text,
     };
   },
-  toggleTodo() {
+  toggleTodo(timestamp) {
     return {
       type: 'TOGGLE_TODO',
+      timestamp,
     };
   },
-  editTodo(text) {
+  editTodo(text, timestamp) {
     return {
       type: 'EDIT_TODO',
       text,
+      timestamp,
     };
   },
-  removeTodo() {
+  removeTodo(timestamp) {
     return {
       type: 'REMOVE_TODO',
+      timestamp,
     };
   },
 };

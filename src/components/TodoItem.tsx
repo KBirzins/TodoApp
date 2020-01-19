@@ -5,6 +5,7 @@ import {TouchableWithoutFeedback} from 'react-native';
 
 import CheckBox from './common/CheckBox';
 import Icon from './common/Icon';
+import todoActions from '../reducers/todoList/actions';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -40,7 +41,7 @@ const ButtonContainerView = styled.View`
   flex-direction: row;
 `;
 
-interface ITodoItem {
+export interface ITodoItem {
   text: string;
   done: boolean;
   timestamp: number;
@@ -61,13 +62,13 @@ const TodoItem = ({
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        dispatch({type: 'TOGGLE_TODO', timestamp});
+        dispatch(todoActions.toggleTodo(timestamp));
       }}>
       <StyledView>
         <CheckBox
           selected={done}
           onPress={() => {
-            dispatch({type: 'TOGGLE_TODO', timestamp});
+            dispatch(todoActions.toggleTodo(timestamp));
           }}
         />
         {isEditing ? (
@@ -84,7 +85,7 @@ const TodoItem = ({
                   name="check"
                   onPress={() => {
                     onEditingDone();
-                    dispatch({type: 'EDIT_TODO', timestamp, text: todoText});
+                    dispatch(todoActions.editTodo(todoText, timestamp));
                   }}
                 />
                 <Icon

@@ -6,8 +6,9 @@ import Swipeable from 'react-native-swipeable';
 import firestore from '@react-native-firebase/firestore';
 
 import Icon from './common/Icon';
-import TodoItem from './TodoItem';
+import TodoItem, {ITodoItem} from './TodoItem';
 import TodoNew from './TodoNew';
+import todoActions from '../reducers/todoList/actions';
 
 const StyledView = styled.View`
   padding-top: 22px;
@@ -18,7 +19,23 @@ const StyledLeftView = styled.View`
   padding-vertical: 5px;
 `;
 
-const filterList = (todoList, filter) => {
+interface IFilter {
+  todo: {
+    isActive: boolean;
+    isPrimaryActive: boolean;
+  };
+  date: {
+    isActive: boolean;
+    isPrimaryActive: boolean;
+  };
+  alphabet: {
+    isActive: boolean;
+    isPrimaryActive: boolean;
+  };
+  text: string;
+}
+
+const filterList = (todoList: ITodoItem[], filter: IFilter) => {
   const {todo, date, alphabet, text} = filter;
   if (todo.isActive) {
     if (todo.isPrimaryActive) {
@@ -62,10 +79,12 @@ const getUsersFromFirebase = async () => {
   return querySnapshot;
 };
 
-const SwipeableItem = ({item, index}) => {
+const SwipeableItem = ({item, index}: {item: ITodoItem; index: any}) => {
   const dispatch = useDispatch();
-  const [isEditing, setEditing] = useState(false);
-  const swipeEl = useRef(null);
+  const [isEditing, setEditing] = useState<
+    boolean | {index: number; isEditing: boolean}
+  >(false);
+  const swipeEl = useRef<null | any>(null);
 
   return (
     <Swipeable
@@ -88,7 +107,7 @@ const SwipeableItem = ({item, index}) => {
       rightButtons={[
         <Icon
           onPress={() => {
-            dispatch({type: 'REMOVE_TODO', timestamp: item.timestamp});
+            dispatch(todoActions.removeTodo(item.timestamp));
           }}
           name="delete"
         />,
@@ -137,9 +156,9 @@ const TodoList = () => {
   //   return () => unsubscribe(); // Stop listening for updates whenever the component unmounts
   // }, []);
 
-  if (loading) {
-    return null; // Show a loading spinner
-  }
+  // if (loading) {
+  //   return null; // Show a loading spinner
+  // }
 
   return (
     <StyledView>

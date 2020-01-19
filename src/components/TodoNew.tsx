@@ -4,6 +4,7 @@ import {TouchableWithoutFeedback} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import Icon from './common/Icon';
+import todoActions from '../reducers/todoList/actions';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -47,7 +48,7 @@ const TodoNew = () => {
               onPress={() => {
                 // Dispatch redux action to add new, reset new todo fields
                 if (text !== '') {
-                  dispatch({type: 'ADD_TODO', text});
+                  dispatch(todoActions.addTodo(text));
                   setText('');
                 }
                 setSelected(false);
@@ -59,12 +60,13 @@ const TodoNew = () => {
               onBlur={() => {
                 // Dispatch redux action to add new, reset new todo fields
                 if (text !== '') {
-                  dispatch({type: 'ADD_TODO', text});
+                  dispatch(todoActions.addTodo(text));
                   setText('');
                 }
                 setSelected(false);
               }}
               autoFocus
+              autoCapitalize="none"
             />
           </>
         )}

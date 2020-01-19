@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import {useDispatch} from 'react-redux';
 
 import FilterItem from './FilterItem';
+import filterActions from '../reducers/filter/actions';
 
 const StyledView = styled.View`
   padding-top: 22px;
@@ -28,9 +29,8 @@ const Search = () => {
   const [alphabetType, setAlphabetType] = useState(true);
 
   const dispatch = useDispatch();
-  dispatch({
-    type: 'SET_FILTER',
-    filter: {
+  dispatch(
+    filterActions.setFilter({
       todo: {
         isActive: doneFilter,
         isPrimaryActive: isDoneType,
@@ -44,8 +44,8 @@ const Search = () => {
         isPrimaryActive: alphabetType,
       },
       text: searchText,
-    },
-  });
+    }),
+  );
 
   return (
     <StyledView>
@@ -79,6 +79,7 @@ const Search = () => {
         onChangeText={text => setText(text)}
         placeholder="Search here"
         value={searchText}
+        autoCapitalize="none"
       />
     </StyledView>
   );
