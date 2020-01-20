@@ -208,6 +208,7 @@ exports[`Search renders correctly with correct properties 1`] = `
   </View>
   <TextInput
     allowFontScaling={true}
+    autoCapitalize="none"
     onChangeText={[Function]}
     placeholder="Search here"
     rejectResponderTermination={true}

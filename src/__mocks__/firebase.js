@@ -1,4 +1,1 @@
-jest.mock('@react-native-firebase/firestore', () => ({
-  __esModule: true,
-  default: {},
-}));
+jest.mock('@react-native-firebase/firestore', () => {});

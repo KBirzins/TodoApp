@@ -68,17 +68,6 @@ const filterList = (todoList: ITodoItem[], filter: IFilter) => {
   return todoList;
 };
 
-const getUsersFromFirebase = async () => {
-  const querySnapshot = await firestore()
-    .collection('users')
-    .get();
-
-  console.log('Total users', querySnapshot.size);
-  console.log('User Documents', querySnapshot.docs);
-
-  return querySnapshot;
-};
-
 const SwipeableItem = ({item, index}: {item: ITodoItem; index: any}) => {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState<
@@ -127,38 +116,38 @@ const TodoList = () => {
   const todoList = useSelector(state => state.todoList);
   const filter = useSelector(state => state.filter);
 
-  const filteredList = filterList(todoList, filter);
-  const [users, setUsers] = useState([]); // Initial empty array of users
+  const [todos, setTodos] = useState([]); // Initial empty array of todos
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
 
-  // On load, fetch our users and subscribe to updates
-  // useEffect(() => {
-  //   const unsubscribe = firestore()
-  //     .collection('users')
-  //     .onSnapshot(querySnapshot => {
-  //       // Add users into an array
-  //       const users = querySnapshot.docs.map(documentSnapshot => {
-  //         return {
-  //           ...documentSnapshot.data(),
-  //           key: documentSnapshot.id, // required for FlatList
-  //         };
-  //       });
+  const filteredList = filterList(todoList, filter);
+  const filteredTodos = filterList(todos, filter);
 
-  //       // Update state with the users array
-  //       setUsers(users);
+  console.log('List if todos from firestore: ', filteredTodos);
 
-  //       // As this can trigger multiple times, only update loading after the first update
-  //       if (loading) {
-  //         setLoading(false);
-  //       }
-  //     });
+  useEffect(() => {
+    const unsubscribe = firestore()
+      .collection('todoList')
+      .onSnapshot(querySnapshot => {
+        const todos = querySnapshot.docs.map(documentSnapshot => {
+          return {
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          };
+        });
 
-  //   return () => unsubscribe(); // Stop listening for updates whenever the component unmounts
-  // }, []);
+        setTodos(todos);
 
-  // if (loading) {
-  //   return null; // Show a loading spinner
-  // }
+        if (loading) {
+          setLoading(false);
+        }
+      });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <StyledView>
